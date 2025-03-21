@@ -46,42 +46,58 @@ const Gameboard = function () {
         }
     }
 
-    const checkWin = function() {
+    // Win check function
+    const checkWin = function(mark) {
         for (let i = 0 ; i < 3 ; i++){ // checks rows
-                if (board[i].every(cell => cell === 'X')) {
-                   console.log('GAME OVER, X WINS, ROW !!!');
+                if (board[i].every(cell => cell === mark)) {
+                   console.log(`GAME OVER, ${mark} WINS, ROW !!!`);
                 }
         }
         for (let j = 0 ; j < 3 ; j++){ // checks collumns
-            if (board.every(row => row[j] === 'X')) {
-               console.log('GAME OVER, X WINS, COLUMN !!!');
+            if (board.every(row => row[j] === mark)) {
+               console.log(`GAME OVER, ${mark} WINS, COLUMN !!!`);
             }
         }
         let mainDiagonalWin = true; // checks main diagonal
         for (let i = 0 ; i < 3 ; i++) {
-            if(board[i][i] !== 'X') {
+            if(board[i][i] !== mark) {
                 mainDiagonalWin = false;
                 break;
             }
         }
         if (mainDiagonalWin) {
-            console.log('GAME OVER, X WINS, MAIN DIAGONAL !!!');
+            console.log(`GAME OVER, ${mark} WINS, MAIN DIAGONAL !!!`);
         }
         let antiDiagonalWin = true; // checks anti diagonal
         for (let i = 0 ; i < 3 ; i++) {
-            if(board[i][2 - i] !== 'X') {
+            if(board[i][2 - i] !== mark) {
                 antiDiagonalWin = false;
                 break;
             }
         }
         if (antiDiagonalWin) {
-            console.log('GAME OVER, X WINS, ANTI DIAGONAL !!!');
+            console.log(`GAME OVER, ${mark} WINS, ANTI DIAGONAL !!!`);
+        }
+    }
+
+    // Console.log when there is no empty spot left
+    const checkTie = function() {
+        if(board.every(cell => cell.every(index => index !== 'n'))) {
+            console.log('IT`S A TIE !!!');
         }
     }
 
     drawBoard();
-    return { board, playX, playO, checkWin }
+    return { board, playX, playO, checkWin, checkTie}
 }
 
 const game = Gameboard();
 console.log(game.board);
+const testConsole = function(){
+    game.playX();
+    game.playO();
+    console.log(game.board);
+    game.checkWin('O');
+    game.checkWin('X');
+    game.checkTie();
+}
