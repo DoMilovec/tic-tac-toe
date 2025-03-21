@@ -47,16 +47,36 @@ const Gameboard = function () {
     }
 
     const checkWin = function() {
-        for (let i = 0 ; i < 3 ; i++){
-                if ((board[i][0] === 'X' && board[i][1] === 'X' && board[i][2]) === 'X') {
+        for (let i = 0 ; i < 3 ; i++){ // checks rows
+                if (board[i].every(cell => cell === 'X')) {
                    console.log('GAME OVER, X WINS, ROW !!!');
                 }
         }
-        for (let j = 0 ; j < 3 ; j++){
-            if ((board[0][j] === 'X' && board[1][j] === 'X' && board[2][j]) === 'X') {
-               console.log('GAME OVER, X WINS, COLUMN!!!');
+        for (let j = 0 ; j < 3 ; j++){ // checks collumns
+            if (board.every(row => row[j] === 'X')) {
+               console.log('GAME OVER, X WINS, COLUMN !!!');
             }
-    }
+        }
+        let mainDiagonalWin = true; // checks main diagonal
+        for (let i = 0 ; i < 3 ; i++) {
+            if(board[i][i] !== 'X') {
+                mainDiagonalWin = false;
+                break;
+            }
+        }
+        if (mainDiagonalWin) {
+            console.log('GAME OVER, X WINS, MAIN DIAGONAL !!!');
+        }
+        let antiDiagonalWin = true; // checks anti diagonal
+        for (let i = 0 ; i < 3 ; i++) {
+            if(board[i][2 - i] !== 'X') {
+                antiDiagonalWin = false;
+                break;
+            }
+        }
+        if (antiDiagonalWin) {
+            console.log('GAME OVER, X WINS, ANTI DIAGONAL !!!');
+        }
     }
 
     drawBoard();
