@@ -2,11 +2,13 @@ const container = document.querySelector('.container');
 const result = document.querySelector('.result');
 const startBtn = document.querySelector('#startBtn');
 const statusBar = document.querySelector('.statusBar');
+const newRoundBtn = document.querySelector('#newRound');
 let gameOver = false;
 
 const Gameboard = function () {
     let board = [];
     const cell = '';
+    
 
     // draws empty board
     const drawBoard = function () {
@@ -54,42 +56,47 @@ const Gameboard = function () {
 
     // Win check function
     const checkWin = function(mark) {
-        for (let i = 0 ; i < 3 ; i++){ // checks rows
-                if (board[i].every(cell => cell === mark)) {
-                   console.log(`GAME OVER, ${mark} WINS, ROW !!!`);
-                   result.textContent = `Game result: ${mark} WINS IN A ROW !!!`
-                   gameOver = true;
-                }
-        }
-        for (let j = 0 ; j < 3 ; j++){ // checks collumns
-            if (board.every(row => row[j] === mark)) {
-               console.log(`GAME OVER, ${mark} WINS, COLUMN !!!`);
-               result.textContent = `Game result: ${mark} WINS IN A COLUMN !!!`
-               gameOver = true;
+        const winnerName = mark === 'X' ? player1.name : player2.name; // Identify the winner by mark
+    
+        for (let i = 0; i < 3; i++) { // Check rows
+            if (board[i].every(cell => cell === mark)) {
+                console.log(`GAME OVER, ${winnerName} WINS IN A ROW !!!`);
+                result.textContent = `Game result: ${winnerName} WINS IN A ROW !!!`;
+                gameOver = true;
             }
         }
-        let mainDiagonalWin = true; // checks main diagonal
-        for (let i = 0 ; i < 3 ; i++) {
-            if(board[i][i] !== mark) {
+    
+        for (let j = 0; j < 3; j++) { // Check columns
+            if (board.every(row => row[j] === mark)) {
+                console.log(`GAME OVER, ${winnerName} WINS IN A COLUMN !!!`);
+                result.textContent = `Game result: ${winnerName} WINS IN A COLUMN !!!`;
+                gameOver = true;
+            }
+        }
+    
+        let mainDiagonalWin = true; // Check main diagonal
+        for (let i = 0; i < 3; i++) {
+            if (board[i][i] !== mark) {
                 mainDiagonalWin = false;
                 break;
             }
         }
         if (mainDiagonalWin) {
-            console.log(`GAME OVER, ${mark} WINS, MAIN DIAGONAL !!!`);
-            result.textContent = `Game result: ${mark} WINS IN A MAIN DIAGONAL !!!`
+            console.log(`GAME OVER, ${winnerName} WINS IN A MAIN DIAGONAL !!!`);
+            result.textContent = `Game result: ${winnerName} WINS IN A MAIN DIAGONAL !!!`;
             gameOver = true;
         }
-        let antiDiagonalWin = true; // checks anti diagonal
-        for (let i = 0 ; i < 3 ; i++) {
-            if(board[i][2 - i] !== mark) {
+    
+        let antiDiagonalWin = true; // Check anti diagonal
+        for (let i = 0; i < 3; i++) {
+            if (board[i][2 - i] !== mark) {
                 antiDiagonalWin = false;
                 break;
             }
         }
         if (antiDiagonalWin) {
-            console.log(`GAME OVER, ${mark} WINS, ANTI DIAGONAL !!!`);
-            result.textContent = `Game result: ${mark} WINS IN AN ANTI DIAGONAL !!!`
+            console.log(`GAME OVER, ${winnerName} WINS IN AN ANTI DIAGONAL !!!`);
+            result.textContent = `Game result: ${winnerName} WINS IN AN ANTI DIAGONAL !!!`;
             gameOver = true;
         }
     }
@@ -120,6 +127,7 @@ const Gameboard = function () {
     };
     
     let turnX = true;
+    let moves = 0;
     container.addEventListener('click', (e) => {
         if(!gameOver){
             if (e.target.classList.contains('field')) {
@@ -129,8 +137,12 @@ const Gameboard = function () {
                 if (board[row][col] === '') {
                     const currentPlayer = turnX ? 'X' : 'O';
                     board[row][col] = currentPlayer;
+                    moves++;
                     turnX = !turnX;
                     drawUi();
+                    if (moves === 1) {
+                        newRoundBtn.style.display = 'block';
+                    }
                     checkWin('O');
                     checkWin('X');
                     checkTie();
@@ -144,10 +156,13 @@ const Gameboard = function () {
         gameOver = false;
         turnX = true;
         result.textContent = 'Game result : ';
+        
+        moves = 0;
     }
 
     const startGame = function() {
         container.textContent = '';
+        newRoundBtn.style.display = 'none'; 
         const player1NameInput = document.createElement('input');
         const confirmPlayer1NameBtn = document.createElement('button');
         confirmPlayer1NameBtn.textContent = 'Enter Player 1 Name';
@@ -181,21 +196,26 @@ const Gameboard = function () {
                         setTimeout(() => {
                             resetGame();
                           }, 3000);
-                        
                     }
+                    
                 });
             }
         });
     }
 
-    return { board, getBoard, playX, playO, checkWin, checkTie, drawUi, drawBoard, resetGame, startGame}
+    const newRound = function() {
+        resetGame();
+    }
+
+    return { board, getBoard, playX, playO, checkWin, checkTie, drawUi, drawBoard, resetGame, startGame, newRound}
 }
 
 // CONTROLLER
 const gameController = function() {
     const board = Gameboard();
     const startGame = board.startGame;
-    return { board, startGame }
+    const newRound = board.newRound;
+    return { board, startGame, newRound }
 }
 const game = gameController();
 
@@ -203,12 +223,9 @@ startBtn.addEventListener('click', () => {
     game.startGame();
 })
 
+newRoundBtn.addEventListener('click', () => {
+    game.newRound();
+    // game.startGame();
+})
+
 console.log(game.board);
-const testConsole = function(){
-    game.playX();
-    game.playO();
-    console.log(game.board);
-    game.checkWin('O');
-    game.checkWin('X');
-    game.checkTie();
-}
