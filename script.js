@@ -1,6 +1,8 @@
+const container = document.querySelector('.container');
+
 const Gameboard = function () {
     let board = [];
-    const cell = 'n';
+    const cell = '';
 
     // draws empty board
     const drawBoard = function () {
@@ -18,7 +20,7 @@ const Gameboard = function () {
         let emptyCells = [];
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 3; j++) {
-                if (board[i][j] === 'n') {
+                if (board[i][j] === '') {
                     emptyCells.push([i, j]);
                 }
             }
@@ -35,7 +37,7 @@ const Gameboard = function () {
         let emptyCells = [];
         for (let i = 0 ; i < 3 ; i++){
             for (let j = 0 ; j < 3 ; j++) {
-                if (board[i][j] === 'n') {
+                if (board[i][j] === '') {
                     emptyCells.push([i, j]);
                 }
             }
@@ -87,11 +89,49 @@ const Gameboard = function () {
         }
     }
 
+    const getBoard = () => board;
+
+    const drawUi = function() {
+        container.innerHTML = '';
+        board.forEach((row, rowIndex) => {
+            row.forEach((cell, colIndex) => {
+                const field = document.createElement('div');
+                field.classList.add('field');
+                field.textContent = cell; // Display content from this exact array index
+                field.dataset.row = rowIndex; // Assign data attributes 
+                field.dataset.col = colIndex; // to track the exact position
+                container.appendChild(field);
+            });
+        });
+    };
+    
+    container.addEventListener('click', (e) => {
+        if (e.target.classList.contains('field')) {
+            const row = e.target.dataset.row;
+            const col = e.target.dataset.col;
+    
+            if (board[row][col] === '') {
+                board[row][col] = 'X';
+                drawUi(); 
+            } else {
+                console.log(`Cell at [${row}, ${col}] is already occupied.`); //DEL LATER
+            }
+        }
+    });
+
     drawBoard();
-    return { board, playX, playO, checkWin, checkTie}
+    return { board, getBoard, playX, playO, checkWin, checkTie, drawUi}
+}
+
+const gameController = function() {
+    const board = Gameboard();
+    const start = board.drawUi();
+
+    return { board }
 }
 
 const game = Gameboard();
+const controller = gameController();
 console.log(game.board);
 const testConsole = function(){
     game.playX();
