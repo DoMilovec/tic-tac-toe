@@ -1,4 +1,6 @@
 const container = document.querySelector('.container');
+const result = document.querySelector('.result');
+let gameOver = false;
 
 const Gameboard = function () {
     let board = [];
@@ -53,11 +55,15 @@ const Gameboard = function () {
         for (let i = 0 ; i < 3 ; i++){ // checks rows
                 if (board[i].every(cell => cell === mark)) {
                    console.log(`GAME OVER, ${mark} WINS, ROW !!!`);
+                   result.textContent = `Game result: ${mark} WINS IN A ROW !!!`
+                   gameOver = true;
                 }
         }
         for (let j = 0 ; j < 3 ; j++){ // checks collumns
             if (board.every(row => row[j] === mark)) {
                console.log(`GAME OVER, ${mark} WINS, COLUMN !!!`);
+               result.textContent = `Game result: ${mark} WINS IN A COLUMN !!!`
+               gameOver = true;
             }
         }
         let mainDiagonalWin = true; // checks main diagonal
@@ -69,6 +75,8 @@ const Gameboard = function () {
         }
         if (mainDiagonalWin) {
             console.log(`GAME OVER, ${mark} WINS, MAIN DIAGONAL !!!`);
+            result.textContent = `Game result: ${mark} WINS IN A MAIN DIAGONAL !!!`
+            gameOver = true;
         }
         let antiDiagonalWin = true; // checks anti diagonal
         for (let i = 0 ; i < 3 ; i++) {
@@ -79,13 +87,17 @@ const Gameboard = function () {
         }
         if (antiDiagonalWin) {
             console.log(`GAME OVER, ${mark} WINS, ANTI DIAGONAL !!!`);
+            result.textContent = `Game result: ${mark} WINS IN AN ANTI DIAGONAL !!!`
+            gameOver = true;
         }
     }
 
     // Console.log when there is no empty spot left
     const checkTie = function() {
-        if(board.every(cell => cell.every(index => index !== 'n'))) {
+        if(board.every(cell => cell.every(index => index !== ''))) {
             console.log('IT`S A TIE !!!');
+            result.textContent = "Game result: It's a TIE !!!"
+            gameOver = true;
         }
     }
 
@@ -105,18 +117,25 @@ const Gameboard = function () {
         });
     };
     
+    let turnX = true;
     container.addEventListener('click', (e) => {
-        if (e.target.classList.contains('field')) {
-            const row = e.target.dataset.row;
-            const col = e.target.dataset.col;
-    
-            if (board[row][col] === '') {
-                board[row][col] = 'X';
-                drawUi(); 
-            } else {
-                console.log(`Cell at [${row}, ${col}] is already occupied.`); //DEL LATER
-            }
-        }
+        if(!gameOver){
+            if (e.target.classList.contains('field')) {
+                const row = e.target.dataset.row;
+                const col = e.target.dataset.col;
+                
+                if (board[row][col] === '') {
+                    const currentPlayer = turnX ? 'X' : 'O';
+                    board[row][col] = currentPlayer;
+                    turnX = !turnX;
+                    drawUi();
+                    checkWin('O');
+                    checkWin('X');
+                    checkTie();
+                } else {
+                    console.log(`Cell at [${row}, ${col}] is already occupied.`); //DEL LATER
+                }
+            }} else {}
     });
 
     drawBoard();
