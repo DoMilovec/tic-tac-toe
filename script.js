@@ -1,6 +1,7 @@
 const container = document.querySelector('.container');
 const result = document.querySelector('.result');
 const startBtn = document.querySelector('#startBtn');
+const statusBar = document.querySelector('.statusBar');
 let gameOver = false;
 
 const Gameboard = function () {
@@ -145,17 +146,55 @@ const Gameboard = function () {
         result.textContent = 'Game result : ';
     }
 
-    return { board, getBoard, playX, playO, checkWin, checkTie, drawUi, drawBoard, resetGame}
+    const startGame = function() {
+        container.textContent = '';
+        const player1NameInput = document.createElement('input');
+        const confirmPlayer1NameBtn = document.createElement('button');
+        confirmPlayer1NameBtn.textContent = 'Enter Player 1 Name';
+        container.appendChild(player1NameInput);
+        container.appendChild(confirmPlayer1NameBtn);
+
+        confirmPlayer1NameBtn.addEventListener('click', () => {
+            const player1Name = player1NameInput.value;
+            if (player1Name) {
+                player1 = { name: player1Name, mark: 'X' }; // Default mark 'X' for Player 1
+                player1NameInput.disabled = true;
+                confirmPlayer1NameBtn.disabled = true;
+                player1NameInput.style.display = 'none';
+                confirmPlayer1NameBtn.style.display = 'none';
+                // Now, prompt for Player 2's name
+                const player2NameInput = document.createElement('input');
+                const confirmPlayer2NameBtn = document.createElement('button');
+                confirmPlayer2NameBtn.textContent = 'Enter Player 2 Name';
+                container.appendChild(player2NameInput);
+                container.appendChild(confirmPlayer2NameBtn);
+
+                confirmPlayer2NameBtn.addEventListener('click', () => {
+                    const player2Name = player2NameInput.value;
+                    if (player2Name) {
+                        player2 = { name: player2Name, mark: 'O' }; // Default mark 'O' for Player 2
+                        player2NameInput.disabled = true;
+                        confirmPlayer2NameBtn.disabled = true;
+                        player2NameInput.style.display = 'none';
+                        confirmPlayer2NameBtn.style.display = 'none';
+                        container.textContent = `Game starting! ${player1.name} (X) vs. ${player2.name} (O)`;
+                        setTimeout(() => {
+                            resetGame();
+                          }, 3000);
+                        
+                    }
+                });
+            }
+        });
+    }
+
+    return { board, getBoard, playX, playO, checkWin, checkTie, drawUi, drawBoard, resetGame, startGame}
 }
 
 // CONTROLLER
 const gameController = function() {
     const board = Gameboard();
-    
-    const startGame = function() {
-        board.resetGame();
-    }
-
+    const startGame = board.startGame;
     return { board, startGame }
 }
 const game = gameController();
