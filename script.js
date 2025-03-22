@@ -1,5 +1,6 @@
 const container = document.querySelector('.container');
 const result = document.querySelector('.result');
+const startBtn = document.querySelector('#startBtn');
 let gameOver = false;
 
 const Gameboard = function () {
@@ -132,25 +133,37 @@ const Gameboard = function () {
                     checkWin('O');
                     checkWin('X');
                     checkTie();
-                } else {
-                    console.log(`Cell at [${row}, ${col}] is already occupied.`); //DEL LATER
                 }
             }} else {}
     });
 
-    drawBoard();
-    return { board, getBoard, playX, playO, checkWin, checkTie, drawUi}
+    const resetGame = function () {
+        drawBoard();
+        drawUi();
+        gameOver = false;
+        turnX = true;
+        result.textContent = 'Game result : ';
+    }
+
+    return { board, getBoard, playX, playO, checkWin, checkTie, drawUi, drawBoard, resetGame}
 }
 
+// CONTROLLER
 const gameController = function() {
     const board = Gameboard();
-    const start = board.drawUi();
+    
+    const startGame = function() {
+        board.resetGame();
+    }
 
-    return { board }
+    return { board, startGame }
 }
+const game = gameController();
 
-const game = Gameboard();
-const controller = gameController();
+startBtn.addEventListener('click', () => {
+    game.startGame();
+})
+
 console.log(game.board);
 const testConsole = function(){
     game.playX();
