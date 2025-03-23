@@ -190,7 +190,7 @@ const Gameboard = function () {
         drawBoard();
         drawUi();
         gameOver = false;
-        turnX = true;
+        // turnX = true;
         result.textContent = 'Game result : ';
         
         moves = 0;
@@ -202,11 +202,13 @@ const Gameboard = function () {
         scoreForX.textContent = 'X starts first';
         scoreForO.textContent = '';
         result.textContent = '\xa0';
+        statusBar.textContent = '';
         const player1NameInput = document.createElement('input');
         const confirmPlayer1NameBtn = document.createElement('button');
         confirmPlayer1NameBtn.textContent = 'Enter Player 1 Name (X)';
         container.appendChild(player1NameInput);
         container.appendChild(confirmPlayer1NameBtn);
+        turnX = true;
 
         confirmPlayer1NameBtn.addEventListener('click', () => {
             const player1Name = player1NameInput.value;
@@ -252,9 +254,15 @@ const Gameboard = function () {
 
     const newRound = function() {
         resetGame();
+        if (turnX){
+            statusBar.textContent = `${player1.name}'s turn (X)`;
+        } else if (!turnX) {
+            statusBar.textContent = `${player2.name}'s turn (O)`;
+        }
+        
     }
 
-    return { board, getBoard, playX, playO, checkWin, checkTie, drawUi, drawBoard, resetGame, startGame, newRound}
+    return { board, getBoard, playX, playO, checkWin, checkTie, drawUi, drawBoard, resetGame, startGame, newRound }
 }
 
 // CONTROLLER
@@ -272,9 +280,7 @@ startBtn.addEventListener('click', () => {
 
 newRoundBtn.addEventListener('click', () => {
     game.newRound();
-    statusBar.textContent = `${player1.name}'s turn (X)`;
     result.textContent = '';
-    // game.startGame();
 })
 
 console.log(game.board);
