@@ -94,3 +94,8 @@
         transform: scale(1.01);
     }
 }
+
+#resetScore {
+    visibility: hidden;
+    font-size: 5em;
+}

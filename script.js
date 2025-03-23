@@ -3,6 +3,7 @@ const result = document.querySelector('.result');
 const startBtn = document.querySelector('#startBtn');
 const statusBar = document.querySelector('.statusBar');
 const newRoundBtn = document.querySelector('#newRound');
+const resetScore = document.querySelector('#resetScore');
 const scoreForX = document.querySelector('.scoreForX');
 const scoreForO = document.querySelector('.scoreForO');
 let gameOver = false;
@@ -220,6 +221,7 @@ const Gameboard = function () {
 
                     if (moves === 1) {
                         newRoundBtn.style.visibility = 'visible';
+                        resetScore.style.visibility = 'visible';
                     }
                     if(turnX){
                         statusBar.textContent = `${player1.name}'s turn (X)`;
@@ -247,7 +249,8 @@ const Gameboard = function () {
 
     const startGame = function() {
         container.textContent = '';
-        newRoundBtn.style.visibility = 'hidden'; 
+        newRoundBtn.style.visibility = 'hidden';
+        resetScore.style.visibility = 'hidden';
         scoreForX.textContent = 'X starts first';
         scoreForO.textContent = '';
         result.textContent = '\xa0';
@@ -330,6 +333,13 @@ startBtn.addEventListener('click', () => {
 newRoundBtn.addEventListener('click', () => {
     game.newRound();
     result.textContent = '';
+})
+
+resetScore.addEventListener('click', () => {
+    scoreX = 0;
+    scoreO = 0;
+    scoreForX.textContent = `${player1.name}:` + ' ' + scoreX;
+    scoreForO.textContent = `${player2.name}:` + ' ' + scoreO;
 })
 
 console.log(game.board);
