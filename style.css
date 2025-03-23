@@ -5,6 +5,31 @@
     border: 1px black solid;
 }
 
+.gameScreen {
+    display: none;
+}
+
+.chooseGame {
+    display: none;
+}
+
+.homeScreen {
+    height: 100%;
+}
+
+#playPlayer,
+#playComputer {
+    font-size: 5em;
+}
+
+.homeWelcome {
+    font-size: 5em;
+}
+
+.homePressAny {
+    font-size: 3.5em;
+}
+
 .container {
     display: grid;
     grid-template-columns: repeat(3, 200px);
@@ -57,7 +82,7 @@
     font-size: 5em;
 }
 
-#startBtn,
+#restartBtn,
 #newRound {
     font-size: 5em;
 }

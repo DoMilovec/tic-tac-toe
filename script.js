@@ -1,14 +1,31 @@
 const container = document.querySelector('.container');
 const result = document.querySelector('.result');
-const startBtn = document.querySelector('#startBtn');
+const restartBtn = document.querySelector('#restartBtn');
 const statusBar = document.querySelector('.statusBar');
 const newRoundBtn = document.querySelector('#newRound');
 const resetScore = document.querySelector('#resetScore');
 const scoreForX = document.querySelector('.scoreForX');
 const scoreForO = document.querySelector('.scoreForO');
+const homeScreen = document.querySelector('.homeScreen');
+const gameScreen = document.querySelector('.gameScreen');
+const chooseGame = document.querySelector('.chooseGame');
+const playPlayer = document.querySelector('#playPlayer');
+const playComputer = document.querySelector('#playComputer');
+
 let gameOver = false;
 let scoreX = 0;
 let scoreO = 0;
+
+homeScreen.addEventListener('click', () => {
+    homeScreen.style.display = 'none';
+    chooseGame.style.display = 'block';
+})
+
+playPlayer.addEventListener('click', () => {
+    chooseGame.style.display = 'none';
+    gameScreen.style.display = 'block';
+    game.startGame();
+})
 
 const Gameboard = function () {
     let board = [];
@@ -326,8 +343,11 @@ const gameController = function() {
 }
 const game = gameController();
 
-startBtn.addEventListener('click', () => {
-    game.startGame();
+restartBtn.addEventListener('click', () => {
+    homeScreen.style.display = 'block';
+    gameScreen.style.display = 'none';
+    scoreX = 0;
+    scoreO = 0;
 })
 
 newRoundBtn.addEventListener('click', () => {
