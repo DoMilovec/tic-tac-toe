@@ -11,6 +11,7 @@ const gameScreen = document.querySelector('.gameScreen');
 const chooseGame = document.querySelector('.chooseGame');
 const playPlayer = document.querySelector('#playPlayer');
 const playComputer = document.querySelector('#playComputer');
+let computerGame = false;
 
 let gameOver = false;
 let scoreX = 0;
@@ -25,6 +26,13 @@ playPlayer.addEventListener('click', () => {
     chooseGame.style.display = 'none';
     gameScreen.style.display = 'block';
     game.startGame();
+})
+
+playComputer.addEventListener('click', () => {
+    chooseGame.style.display = 'none';
+    gameScreen.style.display = 'block';
+    game.startGameComputer();
+    computerGame = true;
 })
 
 const Gameboard = function () {
@@ -73,6 +81,12 @@ const Gameboard = function () {
         if (emptyCells.length > 0){
             const [x, y] = emptyCells[Math.floor(Math.random() * emptyCells.length)];
             board[x][y] = 'O';
+            setTimeout(() => {
+                const newMarkField = document.querySelector(`[data-row="${x}"][data-col="${y}"]`);
+                if (newMarkField) {
+                    newMarkField.classList.add('new-mark');
+                }
+            }, 1000); // delay for UI update to make sure it gets the new class
         }
     }
 
@@ -233,7 +247,7 @@ const Gameboard = function () {
                     // Add the 'new-mark' class to the newly placed mark
                     const newMarkField = document.querySelector(`[data-row="${row}"][data-col="${col}"]`);
                     if (newMarkField) {
-                    newMarkField.classList.add('new-mark');
+                            newMarkField.classList.add('new-mark');
                     }
 
                     if (moves === 1) {
@@ -245,11 +259,40 @@ const Gameboard = function () {
                      } else if(!turnX){
                         statusBar.textContent = `${player2.name}'s turn (O)`;
                      }
-                    checkWin('O');
-                    checkWin('X');
-                    checkTie();
-                    scoreForX.textContent = `${player1.name}:` + ' ' + scoreX;
-                    scoreForO.textContent = `${player2.name}:` + ' ' + scoreO;
+
+                    if (!computerGame){
+                        checkWin('O');
+                        checkWin('X');
+                        checkTie();
+                        scoreForX.textContent = `${player1.name}:` + ' ' + scoreX;
+                        scoreForO.textContent = `${player2.name}:` + ' ' + scoreO;
+                    } else if (computerGame) {
+
+                        if (!turnX) {
+                            drawUi();
+                            checkWin('O');
+                            checkWin('X');
+                            checkTie();
+                            turnX = true;
+                            scoreForX.textContent = `${player1.name}:` + ' ' + scoreX;
+                            scoreForO.textContent = `${player2.name}:` + ' ' + scoreO;
+                                if(!gameOver){
+
+                                playO();
+                                drawUi();
+                                const compNewMark = document.querySelector(`[data-row="${row}"][data-col="${col}"]`);
+                                if (compNewMark) {
+                                        compNewMark.classList.add('new-mark');
+                                }
+                                checkWin('O');
+                                checkWin('X');
+                                checkTie();
+                                turnX = true;
+                                scoreForX.textContent = `${player1.name}:` + ' ' + scoreX;
+                                scoreForO.textContent = `${player2.name}:` + ' ' + scoreO;
+                                }
+                        }
+                    }
                 }
             }} else {}
     });
@@ -321,6 +364,51 @@ const Gameboard = function () {
         });
     }
 
+    const startGameComputer = function() {
+        container.textContent = '';
+        newRoundBtn.style.visibility = 'hidden';
+        resetScore.style.visibility = 'hidden';
+        scoreForX.textContent = 'X starts first';
+        scoreForO.textContent = '';
+        result.textContent = '\xa0';
+        statusBar.textContent = '';
+        const player1NameInput = document.createElement('input');
+        const confirmPlayer1NameBtn = document.createElement('button');
+        confirmPlayer1NameBtn.textContent = 'Enter Your Name (X)';
+        container.appendChild(player1NameInput);
+        container.appendChild(confirmPlayer1NameBtn);
+        turnX = true;
+
+        confirmPlayer1NameBtn.addEventListener('click', () => {
+            const player1Name = player1NameInput.value;
+            if (player1Name) {
+                player1 = { name: player1Name, mark: 'X' }; // Default mark 'X' for Player 1
+                player1NameInput.disabled = true;
+                confirmPlayer1NameBtn.disabled = true;
+                player1NameInput.style.display = 'none';
+                confirmPlayer1NameBtn.style.display = 'none';
+
+                // Now, the computer's part
+                    const player2Name = 'Computer';
+                    if (player2Name) {
+                        player2 = { name: player2Name, mark: 'O' }; // Default mark 'O' for Computer
+                        container.textContent = `Game starting! ${player1.name} (X) vs. ${player2.name} (O)`;
+                        scoreForX.textContent = '\xa0';
+                        scoreForO.textContent = '';
+                        setTimeout(() => {
+                            resetGame();
+                            statusBar.textContent = `${player1.name}'s turn (X)`;
+                            result.textContent = '';
+                            scoreForX.textContent = `${player1.name}:` + ' ' + scoreX;
+                            scoreForO.textContent = `${player2.name}:` + ' ' + scoreO;
+                            scoreX = 0;
+                            scoreO = 0;
+                          }, 500);
+                    }
+            }
+        });
+    }
+
     const newRound = function() {
         resetGame();
         if (turnX){
@@ -331,15 +419,16 @@ const Gameboard = function () {
         
     }
 
-    return { board, getBoard, playX, playO, checkWin, checkTie, drawUi, drawBoard, resetGame, startGame, newRound }
+    return { board, getBoard, playX, playO, checkWin, checkTie, drawUi, drawBoard, resetGame, startGame, newRound, startGameComputer }
 }
 
 // CONTROLLER
 const gameController = function() {
     const board = Gameboard();
     const startGame = board.startGame;
+    const startGameComputer = board.startGameComputer;
     const newRound = board.newRound;
-    return { board, startGame, newRound }
+    return { board, startGame, newRound, startGameComputer }
 }
 const game = gameController();
 
@@ -348,6 +437,7 @@ restartBtn.addEventListener('click', () => {
     gameScreen.style.display = 'none';
     scoreX = 0;
     scoreO = 0;
+    computerGame = false;
 })
 
 newRoundBtn.addEventListener('click', () => {
