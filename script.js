@@ -63,6 +63,7 @@ const Gameboard = function () {
                 console.log(`GAME OVER, ${winnerName} WINS IN A ROW !!!`);
                 result.textContent = `Game result: ${winnerName} WINS IN A ROW !!!`;
                 gameOver = true;
+                statusBar.textContent = '';
             }
         }
     
@@ -71,6 +72,7 @@ const Gameboard = function () {
                 console.log(`GAME OVER, ${winnerName} WINS IN A COLUMN !!!`);
                 result.textContent = `Game result: ${winnerName} WINS IN A COLUMN !!!`;
                 gameOver = true;
+                statusBar.textContent = '';
             }
         }
     
@@ -85,6 +87,7 @@ const Gameboard = function () {
             console.log(`GAME OVER, ${winnerName} WINS IN A MAIN DIAGONAL !!!`);
             result.textContent = `Game result: ${winnerName} WINS IN A MAIN DIAGONAL !!!`;
             gameOver = true;
+            statusBar.textContent = '';
         }
     
         let antiDiagonalWin = true; // Check anti diagonal
@@ -98,6 +101,7 @@ const Gameboard = function () {
             console.log(`GAME OVER, ${winnerName} WINS IN AN ANTI DIAGONAL !!!`);
             result.textContent = `Game result: ${winnerName} WINS IN AN ANTI DIAGONAL !!!`;
             gameOver = true;
+            statusBar.textContent = '';
         }
     }
 
@@ -107,6 +111,7 @@ const Gameboard = function () {
             console.log('IT`S A TIE !!!');
             result.textContent = "Game result: It's a TIE !!!"
             gameOver = true;
+            statusBar.textContent = '';
         }
     }
 
@@ -195,7 +200,9 @@ const Gameboard = function () {
                         container.textContent = `Game starting! ${player1.name} (X) vs. ${player2.name} (O)`;
                         setTimeout(() => {
                             resetGame();
-                          }, 3000);
+                            statusBar.textContent = `${player1.name}'s turn (X)`;
+                            result.textContent = '';
+                          }, 500);
                     }
                     
                 });
@@ -225,6 +232,8 @@ startBtn.addEventListener('click', () => {
 
 newRoundBtn.addEventListener('click', () => {
     game.newRound();
+    statusBar.textContent = `${player1.name}'s turn (X)`;
+    result.textContent = '';
     // game.startGame();
 })
 
