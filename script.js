@@ -101,7 +101,7 @@ const Gameboard = function () {
                 }
 
                 console.log(`GAME OVER, ${winnerName} (${mark}) WINS IN A COLUMN !!!`);
-                result.textContent = `Game result: ${winnerName} WINS IN A COLUMN !!!`;
+                result.textContent = `Game result: ${winnerName} (${mark}) WINS IN A COLUMN !!!`;
                 gameOver = true;
                 statusBar.textContent = '';
                 if(mark === 'X'){
@@ -179,12 +179,20 @@ const Gameboard = function () {
         container.innerHTML = '';
         board.forEach((row, rowIndex) => {
             row.forEach((cell, colIndex) => {
-                const field = document.createElement('div');
-                field.classList.add('field');
-                field.textContent = cell; // Display content from this exact array index
-                field.dataset.row = rowIndex; // Assign data attributes 
-                field.dataset.col = colIndex; // to track the exact position
-                container.appendChild(field);
+            const field = document.createElement('div');
+            field.classList.add('field');
+            field.dataset.row = rowIndex;
+            field.dataset.col = colIndex;
+
+            if (cell === 'X') {
+                field.classList.add('x-mark'); // New class for X
+
+            } else if (cell === 'O') {
+                field.classList.add('o-mark'); // New class for O
+ 
+            }
+            
+            container.appendChild(field);
             });
         });
     };
@@ -199,10 +207,17 @@ const Gameboard = function () {
                 
                 if (board[row][col] === '') {
                     const currentPlayer = turnX ? 'X' : 'O';
-                    board[row][col] = currentPlayer;
+                    board[row][col] = currentPlayer; // puts mark at the spot
                     moves++;
                     turnX = !turnX;
                     drawUi();
+
+                    // Add the 'new-mark' class to the newly placed mark
+                    const newMarkField = document.querySelector(`[data-row="${row}"][data-col="${col}"]`);
+                    if (newMarkField) {
+                    newMarkField.classList.add('new-mark');
+                    }
+
                     if (moves === 1) {
                         newRoundBtn.style.visibility = 'visible';
                     }
