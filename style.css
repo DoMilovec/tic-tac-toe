@@ -36,9 +36,15 @@
 }
 
 #newRound {
-    display: none;
+    visibility: hidden;
 }
 
 .score  {
     font-size: 5em;
+    display: flex;
+}
+
+.scoreForX,
+.scoreForO {
+    flex: 1;
 }

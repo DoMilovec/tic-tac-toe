@@ -3,7 +3,8 @@ const result = document.querySelector('.result');
 const startBtn = document.querySelector('#startBtn');
 const statusBar = document.querySelector('.statusBar');
 const newRoundBtn = document.querySelector('#newRound');
-const score = document.querySelector('.score');
+const scoreForX = document.querySelector('.scoreForX');
+const scoreForO = document.querySelector('.scoreForO');
 let gameOver = false;
 let scoreX = 0;
 let scoreO = 0;
@@ -130,7 +131,7 @@ const Gameboard = function () {
 
     // Console.log when there is no empty spot left
     const checkTie = function() {
-        if(board.every(cell => cell.every(index => index !== ''))) {
+        if((board.every(cell => cell.every(index => index !== ''))) && (!gameOver)) {
             console.log('IT`S A TIE !!!');
             result.textContent = "Game result: It's a TIE !!!"
             gameOver = true;
@@ -169,12 +170,13 @@ const Gameboard = function () {
                     turnX = !turnX;
                     drawUi();
                     if (moves === 1) {
-                        newRoundBtn.style.display = 'block';
+                        newRoundBtn.style.visibility = 'visible';
                     }
                     checkWin('O');
                     checkWin('X');
                     checkTie();
-                    score.textContent = `${player1.name}:` + scoreX + `${player2.name}:` + scoreO;
+                    scoreForX.textContent = `${player1.name}:` + ' ' + scoreX;
+                    scoreForO.textContent = `${player2.name}:` + ' ' + scoreO;
                 }
             }} else {}
     });
@@ -191,8 +193,9 @@ const Gameboard = function () {
 
     const startGame = function() {
         container.textContent = '';
-        newRoundBtn.style.display = 'none'; 
-        score.textContent = 'X starts first';
+        newRoundBtn.style.visibility = 'hidden'; 
+        scoreForX.textContent = 'X starts first';
+        scoreForO.textContent = '';
         const player1NameInput = document.createElement('input');
         const confirmPlayer1NameBtn = document.createElement('button');
         confirmPlayer1NameBtn.textContent = 'Enter Player 1 Name (X)';
@@ -223,12 +226,14 @@ const Gameboard = function () {
                         player2NameInput.style.display = 'none';
                         confirmPlayer2NameBtn.style.display = 'none';
                         container.textContent = `Game starting! ${player1.name} (X) vs. ${player2.name} (O)`;
-                        score.textContent = '\xa0';
+                        scoreForX.textContent = '\xa0';
+                        scoreForO.textContent = '';
                         setTimeout(() => {
                             resetGame();
                             statusBar.textContent = `${player1.name}'s turn (X)`;
                             result.textContent = '';
-                            score.textContent = `${player1.name}:` + scoreX + ' ' + `${player2.name}:` + scoreO;
+                            scoreForX.textContent = `${player1.name}:` + ' ' + scoreX;
+                            scoreForO.textContent = `${player2.name}:` + ' ' + scoreO;
                             scoreX = 0;
                             scoreO = 0;
                           }, 500);
