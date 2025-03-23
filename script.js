@@ -3,7 +3,10 @@ const result = document.querySelector('.result');
 const startBtn = document.querySelector('#startBtn');
 const statusBar = document.querySelector('.statusBar');
 const newRoundBtn = document.querySelector('#newRound');
+const score = document.querySelector('.score');
 let gameOver = false;
+let scoreX = 0;
+let scoreO = 0;
 
 const Gameboard = function () {
     let board = [];
@@ -64,6 +67,11 @@ const Gameboard = function () {
                 result.textContent = `Game result: ${winnerName} WINS IN A ROW !!!`;
                 gameOver = true;
                 statusBar.textContent = '';
+                if(mark === 'X'){
+                    scoreX++;
+                } else if (mark === 'O'){
+                    scoreO++;
+                }
             }
         }
     
@@ -73,6 +81,11 @@ const Gameboard = function () {
                 result.textContent = `Game result: ${winnerName} WINS IN A COLUMN !!!`;
                 gameOver = true;
                 statusBar.textContent = '';
+                if(mark === 'X'){
+                    scoreX++;
+                } else if (mark === 'O'){
+                    scoreO++;
+                }
             }
         }
     
@@ -88,6 +101,11 @@ const Gameboard = function () {
             result.textContent = `Game result: ${winnerName} WINS IN A MAIN DIAGONAL !!!`;
             gameOver = true;
             statusBar.textContent = '';
+            if(mark === 'X'){
+                scoreX++;
+            } else if (mark === 'O'){
+                scoreO++;
+            }
         }
     
         let antiDiagonalWin = true; // Check anti diagonal
@@ -102,6 +120,11 @@ const Gameboard = function () {
             result.textContent = `Game result: ${winnerName} WINS IN AN ANTI DIAGONAL !!!`;
             gameOver = true;
             statusBar.textContent = '';
+            if(mark === 'X'){
+                scoreX++;
+            } else if (mark === 'O'){
+                scoreO++;
+            }
         }
     }
 
@@ -151,6 +174,7 @@ const Gameboard = function () {
                     checkWin('O');
                     checkWin('X');
                     checkTie();
+                    score.textContent = `${player1.name}:` + scoreX + `${player2.name}:` + scoreO;
                 }
             }} else {}
     });
@@ -168,9 +192,10 @@ const Gameboard = function () {
     const startGame = function() {
         container.textContent = '';
         newRoundBtn.style.display = 'none'; 
+        score.textContent = 'X starts first';
         const player1NameInput = document.createElement('input');
         const confirmPlayer1NameBtn = document.createElement('button');
-        confirmPlayer1NameBtn.textContent = 'Enter Player 1 Name';
+        confirmPlayer1NameBtn.textContent = 'Enter Player 1 Name (X)';
         container.appendChild(player1NameInput);
         container.appendChild(confirmPlayer1NameBtn);
 
@@ -185,7 +210,7 @@ const Gameboard = function () {
                 // Now, prompt for Player 2's name
                 const player2NameInput = document.createElement('input');
                 const confirmPlayer2NameBtn = document.createElement('button');
-                confirmPlayer2NameBtn.textContent = 'Enter Player 2 Name';
+                confirmPlayer2NameBtn.textContent = 'Enter Player 2 Name (O)';
                 container.appendChild(player2NameInput);
                 container.appendChild(confirmPlayer2NameBtn);
 
@@ -198,10 +223,14 @@ const Gameboard = function () {
                         player2NameInput.style.display = 'none';
                         confirmPlayer2NameBtn.style.display = 'none';
                         container.textContent = `Game starting! ${player1.name} (X) vs. ${player2.name} (O)`;
+                        score.textContent = '\xa0';
                         setTimeout(() => {
                             resetGame();
                             statusBar.textContent = `${player1.name}'s turn (X)`;
                             result.textContent = '';
+                            score.textContent = `${player1.name}:` + scoreX + ' ' + `${player2.name}:` + scoreO;
+                            scoreX = 0;
+                            scoreO = 0;
                           }, 500);
                     }
                     

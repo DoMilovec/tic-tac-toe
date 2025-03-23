@@ -38,3 +38,7 @@
 #newRound {
     display: none;
 }
+
+.score  {
+    font-size: 5em;
+}
