@@ -65,7 +65,7 @@ const Gameboard = function () {
         for (let i = 0; i < 3; i++) { // Check rows
             if (board[i].every(cell => cell === mark)) {
                 console.log(`GAME OVER, ${winnerName} WINS IN A ROW !!!`);
-                result.textContent = `Game result: ${winnerName} WINS IN A ROW !!!`;
+                result.textContent = `Game result: ${winnerName} (${mark}) WINS IN A ROW !!!`;
                 gameOver = true;
                 statusBar.textContent = '';
                 if(mark === 'X'){
@@ -78,7 +78,7 @@ const Gameboard = function () {
     
         for (let j = 0; j < 3; j++) { // Check columns
             if (board.every(row => row[j] === mark)) {
-                console.log(`GAME OVER, ${winnerName} WINS IN A COLUMN !!!`);
+                console.log(`GAME OVER, ${winnerName} (${mark}) WINS IN A COLUMN !!!`);
                 result.textContent = `Game result: ${winnerName} WINS IN A COLUMN !!!`;
                 gameOver = true;
                 statusBar.textContent = '';
@@ -99,7 +99,7 @@ const Gameboard = function () {
         }
         if (mainDiagonalWin) {
             console.log(`GAME OVER, ${winnerName} WINS IN A MAIN DIAGONAL !!!`);
-            result.textContent = `Game result: ${winnerName} WINS IN A MAIN DIAGONAL !!!`;
+            result.textContent = `Game result: ${winnerName} (${mark}) WINS IN A MAIN DIAGONAL !!!`;
             gameOver = true;
             statusBar.textContent = '';
             if(mark === 'X'){
@@ -118,7 +118,7 @@ const Gameboard = function () {
         }
         if (antiDiagonalWin) {
             console.log(`GAME OVER, ${winnerName} WINS IN AN ANTI DIAGONAL !!!`);
-            result.textContent = `Game result: ${winnerName} WINS IN AN ANTI DIAGONAL !!!`;
+            result.textContent = `Game result: ${winnerName} (${mark}) WINS IN AN ANTI DIAGONAL !!!`;
             gameOver = true;
             statusBar.textContent = '';
             if(mark === 'X'){
@@ -172,6 +172,11 @@ const Gameboard = function () {
                     if (moves === 1) {
                         newRoundBtn.style.visibility = 'visible';
                     }
+                    if(turnX){
+                        statusBar.textContent = `${player1.name}'s turn (X)`;
+                     } else if(!turnX){
+                        statusBar.textContent = `${player2.name}'s turn (O)`;
+                     }
                     checkWin('O');
                     checkWin('X');
                     checkTie();
@@ -196,6 +201,7 @@ const Gameboard = function () {
         newRoundBtn.style.visibility = 'hidden'; 
         scoreForX.textContent = 'X starts first';
         scoreForO.textContent = '';
+        result.textContent = '\xa0';
         const player1NameInput = document.createElement('input');
         const confirmPlayer1NameBtn = document.createElement('button');
         confirmPlayer1NameBtn.textContent = 'Enter Player 1 Name (X)';
