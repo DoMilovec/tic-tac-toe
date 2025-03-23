@@ -48,3 +48,10 @@
 .scoreForO {
     flex: 1;
 }
+
+.highlight {
+    background-color: #4CAF50;  /* Green background for winning cells */
+    color: white;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}

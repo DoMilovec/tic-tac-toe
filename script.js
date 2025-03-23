@@ -61,9 +61,25 @@ const Gameboard = function () {
     // Win check function
     const checkWin = function(mark) {
         const winnerName = mark === 'X' ? player1.name : player2.name; // Identify the winner by mark
-    
+
+        const highlightCells = (cells) => { // add highlight for winning tiles, mark on each checkwin = true
+            cells.forEach(([row, col]) => {
+                const cell = document.querySelector(`[data-row="${row}"][data-col="${col}"]`);
+                if (cell) {
+                    cell.classList.add('highlight');
+                }
+            });
+        };
+        let winningCells = [];
+
         for (let i = 0; i < 3; i++) { // Check rows
             if (board[i].every(cell => cell === mark)) {
+
+                winningCells = [[i, 0], [i, 1], [i, 2]];
+                if (winningCells.length) {
+                    highlightCells(winningCells);
+                }
+
                 console.log(`GAME OVER, ${winnerName} WINS IN A ROW !!!`);
                 result.textContent = `Game result: ${winnerName} (${mark}) WINS IN A ROW !!!`;
                 gameOver = true;
@@ -78,6 +94,12 @@ const Gameboard = function () {
     
         for (let j = 0; j < 3; j++) { // Check columns
             if (board.every(row => row[j] === mark)) {
+
+                winningCells = [[0, j], [1, j], [2, j]];
+                if (winningCells.length) {
+                    highlightCells(winningCells);
+                }
+
                 console.log(`GAME OVER, ${winnerName} (${mark}) WINS IN A COLUMN !!!`);
                 result.textContent = `Game result: ${winnerName} WINS IN A COLUMN !!!`;
                 gameOver = true;
@@ -98,6 +120,12 @@ const Gameboard = function () {
             }
         }
         if (mainDiagonalWin) {
+
+            winningCells = [[0, 0], [1, 1], [2, 2]];
+            if (winningCells.length) {
+                highlightCells(winningCells);
+            }
+
             console.log(`GAME OVER, ${winnerName} WINS IN A MAIN DIAGONAL !!!`);
             result.textContent = `Game result: ${winnerName} (${mark}) WINS IN A MAIN DIAGONAL !!!`;
             gameOver = true;
@@ -117,6 +145,12 @@ const Gameboard = function () {
             }
         }
         if (antiDiagonalWin) {
+
+            winningCells = [[2, 0], [1, 1], [0, 2]];
+            if (winningCells.length) {
+                highlightCells(winningCells);
+            }
+
             console.log(`GAME OVER, ${winnerName} WINS IN AN ANTI DIAGONAL !!!`);
             result.textContent = `Game result: ${winnerName} (${mark}) WINS IN AN ANTI DIAGONAL !!!`;
             gameOver = true;
