@@ -16,21 +16,23 @@
         <div class="homePressAny">PRESS ANYWHERE TO BEGIN</div>
         <div class="footer">Dominik Milovec © 2025</div>
     </div>
-    <div class="chooseGame">
-        <button id="playPlayer">Play against a Player</button>
-        <button id="playComputer">Play against a Computer</button>
+    <div class="chooseGame box">
+        <button id="playPlayer">Player VS Player</button>
+        <button id="playComputer">You VS Computer</button>
     </div>
     <div class="gameScreen">
         <div class="score"><br>
             <div class="scoreForX"></div>
             <div class="scoreForO"></div>
         </div>
-        <button id="newRound">New Round</button>
-        <button id="resetScore">Reset Score</button>
+        <div class="topButtons">
+            <button id="newRound" class="gameBtn"><span>New Round</span></button>
+            <button id="resetScore" class="gameBtn"><span>Reset Score</span></button>
+        </div>
         <div class="container"></div>
         <div class="statusBar"></div>
         <div class="result"><br></div>
-        <button id="restartBtn">Restart Game</button>
+        <button id="restartBtn" class="gameBtn"><span>Restart Game</span></button>
     </div>
 <script src="script.js"></script>
 </body>

@@ -12,6 +12,8 @@ const chooseGame = document.querySelector('.chooseGame');
 const playPlayer = document.querySelector('#playPlayer');
 const playComputer = document.querySelector('#playComputer');
 let computerGame = false;
+chooseGame.style.display = 'none';
+gameScreen.style.display = 'none';
 
 let gameOver = false;
 let scoreX = 0;
@@ -19,20 +21,24 @@ let scoreO = 0;
 
 homeScreen.addEventListener('click', () => {
     homeScreen.style.display = 'none';
-    chooseGame.style.display = 'block';
+    chooseGame.style.display = 'flex';
 })
 
 playPlayer.addEventListener('click', () => {
-    chooseGame.style.display = 'none';
-    gameScreen.style.display = 'block';
-    game.startGame();
+    setTimeout(() => {
+        chooseGame.style.display = 'none';
+        gameScreen.style.display = 'flex';
+        game.startGame();
+    }, 1000);
 })
 
 playComputer.addEventListener('click', () => {
-    chooseGame.style.display = 'none';
-    gameScreen.style.display = 'block';
-    game.startGameComputer();
-    computerGame = true;
+    setTimeout(() => {
+        chooseGame.style.display = 'none';
+        gameScreen.style.display = 'flex';
+        game.startGameComputer();
+        computerGame = true;
+    }, 1000);
 })
 
 const Gameboard = function () {
@@ -121,7 +127,7 @@ const Gameboard = function () {
                 }
 
                 console.log(`GAME OVER, ${winnerName} WINS IN A ROW !!!`);
-                result.textContent = `Game result: ${winnerName} (${mark}) WINS IN A ROW !!!`;
+                result.textContent = `${winnerName} wins the round!`;
                 gameOver = true;
                 statusBar.textContent = '';
                 if(mark === 'X'){
@@ -140,8 +146,8 @@ const Gameboard = function () {
                     highlightCells(winningCells);
                 }
 
-                console.log(`GAME OVER, ${winnerName} (${mark}) WINS IN A COLUMN !!!`);
-                result.textContent = `Game result: ${winnerName} (${mark}) WINS IN A COLUMN !!!`;
+                console.log(`GAME OVER, ${winnerName} WINS IN A COLUMN !!!`);
+                result.textContent = `${winnerName} wins the round!`;
                 gameOver = true;
                 statusBar.textContent = '';
                 if(mark === 'X'){
@@ -167,7 +173,7 @@ const Gameboard = function () {
             }
 
             console.log(`GAME OVER, ${winnerName} WINS IN A MAIN DIAGONAL !!!`);
-            result.textContent = `Game result: ${winnerName} (${mark}) WINS IN A MAIN DIAGONAL !!!`;
+            result.textContent = `${winnerName} wins the round!`;
             gameOver = true;
             statusBar.textContent = '';
             if(mark === 'X'){
@@ -191,8 +197,8 @@ const Gameboard = function () {
                 highlightCells(winningCells);
             }
 
-            console.log(`GAME OVER, ${winnerName} WINS IN AN ANTI DIAGONAL !!!`);
-            result.textContent = `Game result: ${winnerName} (${mark}) WINS IN AN ANTI DIAGONAL !!!`;
+            console.log(`${winnerName} WINS IN AN ANTI DIAGONAL !!!`);
+            result.textContent = `${winnerName} wins the round!`;
             gameOver = true;
             statusBar.textContent = '';
             if(mark === 'X'){
@@ -207,7 +213,7 @@ const Gameboard = function () {
     const checkTie = function() {
         if((board.every(cell => cell.every(index => index !== ''))) && (!gameOver)) {
             console.log('IT`S A TIE !!!');
-            result.textContent = "Game result: It's a TIE !!!"
+            result.textContent = "It's a tie!"
             gameOver = true;
             statusBar.textContent = '';
         }
@@ -323,7 +329,9 @@ const Gameboard = function () {
         result.textContent = '\xa0';
         statusBar.textContent = '';
         const player1NameInput = document.createElement('input');
+        player1NameInput.setAttribute('maxlength', '6');
         const confirmPlayer1NameBtn = document.createElement('button');
+        confirmPlayer1NameBtn.classList.add('playerSelectButton');
         confirmPlayer1NameBtn.textContent = 'Enter Player 1 Name (X)';
         container.appendChild(player1NameInput);
         container.appendChild(confirmPlayer1NameBtn);
@@ -339,7 +347,9 @@ const Gameboard = function () {
                 confirmPlayer1NameBtn.style.display = 'none';
                 // Now, prompt for Player 2's name
                 const player2NameInput = document.createElement('input');
+                player2NameInput.setAttribute('maxlength', '6');
                 const confirmPlayer2NameBtn = document.createElement('button');
+                confirmPlayer2NameBtn.classList.add('playerSelectButton');
                 confirmPlayer2NameBtn.textContent = 'Enter Player 2 Name (O)';
                 container.appendChild(player2NameInput);
                 container.appendChild(confirmPlayer2NameBtn);
@@ -380,6 +390,7 @@ const Gameboard = function () {
         result.textContent = '\xa0';
         statusBar.textContent = '';
         const player1NameInput = document.createElement('input');
+        player1NameInput.setAttribute('maxlength', '6');
         const confirmPlayer1NameBtn = document.createElement('button');
         confirmPlayer1NameBtn.textContent = 'Enter Your Name (X)';
         container.appendChild(player1NameInput);
@@ -396,7 +407,7 @@ const Gameboard = function () {
                 confirmPlayer1NameBtn.style.display = 'none';
 
                 // Now, the computer's part
-                    const player2Name = 'Computer';
+                    const player2Name = 'AI';
                     if (player2Name) {
                         player2 = { name: player2Name, mark: 'O' }; // Default mark 'O' for Computer
                         container.textContent = `Game starting! ${player1.name} (X) vs. ${player2.name} (O)`;
