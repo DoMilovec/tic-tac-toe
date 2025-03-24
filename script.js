@@ -80,12 +80,20 @@ const Gameboard = function () {
         }
         if (emptyCells.length > 0){
             const [x, y] = emptyCells[Math.floor(Math.random() * emptyCells.length)];
-            board[x][y] = 'O';
+            
             setTimeout(() => {
+                board[x][y] = 'O';
+                drawUi();
                 const newMarkField = document.querySelector(`[data-row="${x}"][data-col="${y}"]`);
                 if (newMarkField) {
                     newMarkField.classList.add('new-mark');
                 }
+                checkWin('O');
+                checkWin('X');
+                checkTie();
+                scoreForX.textContent = `${player1.name}:` + ' ' + scoreX;
+                scoreForO.textContent = `${player2.name}:` + ' ' + scoreO;
+                statusBar.textContent = `${player1.name}'s turn (X)`;
             }, 1000); // delay for UI update to make sure it gets the new class
         }
     }
@@ -273,7 +281,6 @@ const Gameboard = function () {
                             checkWin('O');
                             checkWin('X');
                             checkTie();
-                            turnX = true;
                             scoreForX.textContent = `${player1.name}:` + ' ' + scoreX;
                             scoreForO.textContent = `${player2.name}:` + ' ' + scoreO;
                                 if(!gameOver){
@@ -356,7 +363,7 @@ const Gameboard = function () {
                             scoreForO.textContent = `${player2.name}:` + ' ' + scoreO;
                             scoreX = 0;
                             scoreO = 0;
-                          }, 500);
+                          }, 1500);
                     }
                     
                 });
@@ -403,7 +410,7 @@ const Gameboard = function () {
                             scoreForO.textContent = `${player2.name}:` + ' ' + scoreO;
                             scoreX = 0;
                             scoreO = 0;
-                          }, 500);
+                          }, 1500);
                     }
             }
         });
@@ -411,12 +418,28 @@ const Gameboard = function () {
 
     const newRound = function() {
         resetGame();
-        if (turnX){
-            statusBar.textContent = `${player1.name}'s turn (X)`;
-        } else if (!turnX) {
-            statusBar.textContent = `${player2.name}'s turn (O)`;
+    
+        statusBar.textContent = turnX
+            ? `${player1.name}'s turn (X)`
+            : `${player2.name}'s turn (O)`;
+    
+        // Computer logic
+        if (computerGame && !turnX) {
+            setTimeout(() => {
+                if (!gameOver) {
+                    playO();
+                    drawUi();
+                    checkWin('O');
+                    checkWin('X');
+                    checkTie();
+    
+                    if (!gameOver) {
+                        turnX = true; 
+                        statusBar.textContent = `${player1.name}'s turn (X)`;
+                    }
+                }
+            }, 1000);
         }
-        
     }
 
     return { board, getBoard, playX, playO, checkWin, checkTie, drawUi, drawBoard, resetGame, startGame, newRound, startGameComputer }
@@ -433,8 +456,9 @@ const gameController = function() {
 const game = gameController();
 
 restartBtn.addEventListener('click', () => {
-    homeScreen.style.display = 'block';
+    homeScreen.style.display = 'flex';
     gameScreen.style.display = 'none';
+    chooseGame.style.display = 'none';
     scoreX = 0;
     scoreO = 0;
     computerGame = false;
