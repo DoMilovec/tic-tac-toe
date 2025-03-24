@@ -330,9 +330,10 @@ const Gameboard = function () {
         statusBar.textContent = '';
         const player1NameInput = document.createElement('input');
         player1NameInput.setAttribute('maxlength', '6');
+        player1NameInput.placeholder = 'P1 name';
         const confirmPlayer1NameBtn = document.createElement('button');
         confirmPlayer1NameBtn.classList.add('playerSelectButton');
-        confirmPlayer1NameBtn.textContent = 'Enter Player 1 Name (X)';
+        confirmPlayer1NameBtn.textContent = 'Confirm Player 1 Name (X)';
         container.appendChild(player1NameInput);
         container.appendChild(confirmPlayer1NameBtn);
         turnX = true;
@@ -348,9 +349,10 @@ const Gameboard = function () {
                 // Now, prompt for Player 2's name
                 const player2NameInput = document.createElement('input');
                 player2NameInput.setAttribute('maxlength', '6');
+                player2NameInput.placeholder = 'P2 name';
                 const confirmPlayer2NameBtn = document.createElement('button');
-                confirmPlayer2NameBtn.classList.add('playerSelectButton');
-                confirmPlayer2NameBtn.textContent = 'Enter Player 2 Name (O)';
+                confirmPlayer2NameBtn.classList.add('playerSelectButtonTwo');
+                confirmPlayer2NameBtn.textContent = 'Confirm Player 2 Name (O)';
                 container.appendChild(player2NameInput);
                 container.appendChild(confirmPlayer2NameBtn);
 
@@ -391,8 +393,10 @@ const Gameboard = function () {
         statusBar.textContent = '';
         const player1NameInput = document.createElement('input');
         player1NameInput.setAttribute('maxlength', '6');
+        player1NameInput.placeholder = 'P1 name';
         const confirmPlayer1NameBtn = document.createElement('button');
-        confirmPlayer1NameBtn.textContent = 'Enter Your Name (X)';
+        confirmPlayer1NameBtn.classList.add('playerSelectButton');
+        confirmPlayer1NameBtn.textContent = 'Confirm Your Name (X)';
         container.appendChild(player1NameInput);
         container.appendChild(confirmPlayer1NameBtn);
         turnX = true;
