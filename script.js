@@ -377,7 +377,6 @@ const Gameboard = function () {
                             scoreO = 0;
                           }, 2500);
                     }
-                    
                 });
             }
         });

@@ -296,10 +296,7 @@ from {
     0 0 10px #f03,
     0 0 20px #f03,
     0 0 40px #f03,
-    0 0 80px #f03,
-    0 0 90px #f03,
-    0 0 100px #f03,
-    0 0 150px #f03;
+    0 0 80px #f03;
 }
 
 
@@ -313,10 +310,7 @@ from {
     0 0 10px #08f,
     0 0 20px #08f,
     0 0 40px #08f,
-    0 0 80px #08f,
-    0 0 90px #08f,
-    0 0 100px #08f,
-    0 0 150px #08f;
+    0 0 80px #08f;
 }
 
 .new-mark::before {
@@ -443,17 +437,6 @@ from {
     initial-value: 0turn;
 }
 
-@media (min-width: 1024px) {
-    .homeScreen {
-        width: 100vw;
-        height: 100vh;
-    }
-    .homeWelcome {
-        margin-top: 20%;
-           
-    }
-}
-
 .gameBtn {
     position: relative;
     text-decoration: none;
@@ -498,3 +481,50 @@ from {
   .gameBtn:hover:after {
     opacity: 1;
   }
+
+  @media (min-width: 1024px) {
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    .homeScreen {
+        width: 100vw;
+        height: 100vh;
+    }
+    .homeWelcome {
+        margin-top: 30vh;
+        font-size: 7em;
+    }
+    .homePressAny {
+        margin-top: 20vh;
+        font-size: 1.7em;
+    }
+    .playerSelectButton,
+    .playerSelectButtonTwo {
+        width: 10vw;
+        aspect-ratio: 1 / 1;
+        margin-left: 14vw;
+    }
+    .score {
+        font-size: 4em;
+    }
+    .container {
+        display: grid;
+        gap: 10px;
+        place-content: center;   
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(3, 1fr);
+        width: 50vmin;
+        height: 50vmin;
+        margin-left: 38vw;
+    }
+    #newRound {
+        visibility: hidden;
+        font-size: 3em;
+    }
+    #resetScore {
+        visibility: hidden;
+        font-size: 3em;
+    }
+}
