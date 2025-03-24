@@ -262,7 +262,7 @@ input {
 
 .footer {
     margin-top: auto;
-    margin-bottom: 2vh;
+    margin-bottom: 10vh;
 }
 
 .neon {
@@ -350,7 +350,7 @@ from {
     font-size: 1em;
     width: 80vw;
     align-self: center;
-    margin-bottom: 1vw;
+    margin-bottom: 10vh;
 }
 
 #newRound {
