@@ -364,7 +364,7 @@ const Gameboard = function () {
                         confirmPlayer2NameBtn.disabled = true;
                         player2NameInput.style.display = 'none';
                         confirmPlayer2NameBtn.style.display = 'none';
-                        container.textContent = `Game starting! ${player1.name} (X) vs. ${player2.name} (O)`;
+                        statusBar.textContent = `${player1.name} (X) vs. ${player2.name} (O)`;
                         scoreForX.textContent = '\xa0';
                         scoreForO.textContent = '';
                         setTimeout(() => {
@@ -375,7 +375,7 @@ const Gameboard = function () {
                             scoreForO.textContent = `${player2.name}:` + ' ' + scoreO;
                             scoreX = 0;
                             scoreO = 0;
-                          }, 1500);
+                          }, 2500);
                     }
                     
                 });
@@ -414,7 +414,7 @@ const Gameboard = function () {
                     const player2Name = 'AI';
                     if (player2Name) {
                         player2 = { name: player2Name, mark: 'O' }; // Default mark 'O' for Computer
-                        container.textContent = `Game starting! ${player1.name} (X) vs. ${player2.name} (O)`;
+                        statusBar.textContent = `${player1.name} (X) vs. ${player2.name} (O)`;
                         scoreForX.textContent = '\xa0';
                         scoreForO.textContent = '';
                         setTimeout(() => {
@@ -425,7 +425,7 @@ const Gameboard = function () {
                             scoreForO.textContent = `${player2.name}:` + ' ' + scoreO;
                             scoreX = 0;
                             scoreO = 0;
-                          }, 1500);
+                          }, 2500);
                     }
             }
         });

@@ -37,15 +37,14 @@
 .field {
     aspect-ratio: 1 / 1; /* Ensures each cell is a perfect square */
     width: 100%; /* Stretch the cell within the grid */
-    border: 1px solid #000; /* Optional styling */
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid #000;
-    background-color: #f0f0f0a8;
+    border: 1px solid #9da5ae;
+    background-color: #121e31;
     cursor: pointer;
     position: relative;
-
+    box-shadow: 0px 0px 5px white;
 }
 
 .playerSelectButton, 
@@ -289,16 +288,35 @@ from {
 
 /* X mark styles */
 .x-mark::before {
-    content: 'X';                 /* Display 'X' */
-    color: #f03;               /* Orange for X */
-    font-size: 3rem;              /* Adjust font size */
+    content: 'X';
+    color: #f03;
+    font-size: 3rem;
+    text-shadow:
+    0 0 5px #f03,
+    0 0 10px #f03,
+    0 0 20px #f03,
+    0 0 40px #f03,
+    0 0 80px #f03,
+    0 0 90px #f03,
+    0 0 100px #f03,
+    0 0 150px #f03;
 }
+
 
 /* O mark styles */
 .o-mark::before {
-    content: 'O';                 /* Display 'O' */
-    color: #08f;               /* Blue for O */
-    font-size: 3rem;              /* Adjust font size */
+    content: 'O';
+    color: #08f;
+    font-size: 3rem;
+    text-shadow:
+    0 0 5px #08f,
+    0 0 10px #08f,
+    0 0 20px #08f,
+    0 0 40px #08f,
+    0 0 80px #08f,
+    0 0 90px #08f,
+    0 0 100px #08f,
+    0 0 150px #08f;
 }
 
 .new-mark::before {
@@ -375,8 +393,8 @@ from {
 }
 
 .highlight {
-    background-color: rgba(33, 255, 12, 0.658); 
-    box-shadow: 0 0 15px 5px rgba(33, 255, 12, 0.658); /* Glowing effect */
+    background-color: rgba(255, 255, 255, 0.30); 
+    box-shadow: 0 0 15px 5px rgb(255, 255, 255); /* Glowing effect */
     animation: pulse 0.5s ease-in-out infinite alternate;
 }
 
